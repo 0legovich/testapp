@@ -1,0 +1,11 @@
+<% title "Categories" %>
+
+<div>
+  <h2>Категории товаров <hr /></h2>
+  <br />
+    <% @categories.each do |category| %>
+      <h4><%= link_to  category.name, category_path(category) %></h4>
+    <% end %>
+  <br />
+  <%= link_to "Создать категорию", new_category_url %>
+</div>

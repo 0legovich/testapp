@@ -1,0 +1,15 @@
+<div class="col-md-6 col-lg-4 pull-right">
+  <%= form_for [@category, @item] do |f| %>
+    <%= f.label 'Наименование товара' %>
+    <%= f.text_field :name_item %>
+    <br />
+    <%= f.label 'Цена' %>
+    <%= f.text_field :price %>
+    <br />
+    <%= f.label 'Вес' %>
+    <%= f.text_field :weight %>
+    <br />
+    <br />
+    <%= f.submit 'Сохранить товар' %> или <%= link_to 'вернуться', :back %>
+  <% end %>
+</div>

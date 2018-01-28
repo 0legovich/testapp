@@ -1,0 +1,13 @@
+<div class="col-lg-3 buffer-top">
+  <div class="table-responsive">
+    <table class="table">
+      <ul class="lead">
+         <li><%= @item.name_item %></li>
+         <li>Вес: <%= @item.weight %> гр.</li>
+         <li>Цена: <%= @item.price %> руб.</li>
+         <li><%= link_to 'Обновить', edit_item_path(@item.category) %></li>
+         <li><%= link_to 'Удалить', item_path, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+      </ul>
+    </table>
+  </div>
+</div>
