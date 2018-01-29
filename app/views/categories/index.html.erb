@@ -3,9 +3,12 @@
 <div>
   <h2>Категории товаров <hr /></h2>
   <br />
-    <% @categories.each do |category| %>
+  <% @categories.each do |category| %>
+    <div>
       <h4><%= link_to  category.name, category_path(category) %></h4>
-    <% end %>
+      <%= link_to 'Удалить категорию', category_path(category), method: :delete, data: {confirm: 'Are you sure?'} %>
+    </div>
+  <% end %>
   <br />
   <%= link_to "Создать категорию", new_category_url %>
 </div>

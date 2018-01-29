@@ -22,6 +22,11 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def destroy
+    @category.destroy
+    redirect_to 'index'
+  end
+
   private
 
   def set_category
