@@ -25,10 +25,15 @@ class ItemsController < ApplicationController
     end
   end
 
+  def destroy
+    @item.destroy
+    redirect_to category_path(@category)
+  end
+
   private
 
   def set_category
-    @category = Category.find(params[:category_id])
+    @category = Category.find(params[:category_id]) if params[:category_id]
   end
 
   def set_item
@@ -36,6 +41,6 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name_item, :weight, :price)
+    params.require(:item).permit(:name, :weight, :price)
   end
 end
