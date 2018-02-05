@@ -1,0 +1,25 @@
+<h2>Корзина</h2>
+<br />
+<ul>
+  <% @cart.cartitems.each do |cartitem| %>
+    <li>Item: <%= cartitem.item.name %>/ Price: <%= (cartitem.item.price) %> rub/
+      Quantity: <%= cartitem.quantity %>/
+      Total Price: <%= (cartitem.total_price) %> rub
+    </li>
+    <ul>
+      <li>
+        <%= link_to "Add one", add_quantity_cartitem_path(id: cartitem), method: :post %>
+        <br />
+        <%= link_to "Reduce one", reduce_quantity_cartitem_path(id:  cartitem), method: :post %>
+      </li>
+      <li>
+        <%= link_to "Remove item", cartitem_path(cartitem), method: :delete %>
+      </li>
+    </ul>
+  <% end %>
+</ul>
+<br />
+<h3>Sub total: <%= (@cart.sub_total) %> rub</h3>
+<br />
+<%= link_to "Оформить заказ", "#" %><br />
+<%= link_to "Очистить корзину", cart_path(@current_cart),method: :delete, data: {confirm: "Вы уверены?"} %>

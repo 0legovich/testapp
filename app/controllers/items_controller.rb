@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :set_category, only: %I[create destroy]
   before_action :set_item, only: %I[edit update show destroy]
+  before_action :current_cart, except: %I[show]
 
   def show
   end
@@ -18,8 +19,8 @@ class ItemsController < ApplicationController
   end
 
   def update
-    if @category.items.update(item_params)
-      redirect_to @category, notice: 'Item updated'
+    if @item.update(item_params)
+      redirect_to item_path(@item), notice: 'Item updated'
     else
       render 'categories/show'
     end

@@ -1,5 +1,6 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: %I[show destroy]
+  skip_before_action :current_cart
 
   def index
     @categories = Category.all
