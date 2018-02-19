@@ -1,0 +1,12 @@
+$('form').submit(function(event) {
+  var $quantity = $('#quantity_field').val();
+  $.ajax({
+    type: "POST",
+    url: "/cartitems/update",
+    data: {'quantity': $quantity},
+    success: function(data) {
+        alert('Успешно!');
+        $('#quantity').val(data['quantity']);
+    }
+  });
+});

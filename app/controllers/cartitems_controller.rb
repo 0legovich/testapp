@@ -1,6 +1,6 @@
 class CartitemsController < ApplicationController
-  before_action :current_cart, only: %I[create destroy]
-  before_action :set_cart_item, only: %I[add_quantity reduce_quantity destroy]
+  before_action :current_cart, only: %I[update create destroy]
+  before_action :set_cart_item, only: %I[update destroy]
 
   def create
     item = Item.find(params[:item_id])
@@ -15,28 +15,29 @@ class CartitemsController < ApplicationController
     end
   end
 
-  def add_quantity
-    @cart_item.quantity += 1
-    @cart_item.save
-    redirect_to cart_path(@current_cart) if @current_cart.presence
-  end
-
-  def reduce_quantity
-    if @cart_item.quantity > 1
-      @cart_item.quantity -= 1
+  def update
+    data = {}
+    @cart_item.update(cartitem_params)
+    respond_to do |format|
+      if @cart_item.save
+        format.html {redirect_to cart_path(@current_cart)}
+        format.js data['quantity'] = @cart_item.quantity
+      end
     end
-    @cart_item.save
-    redirect_to cart_path(@current_cart) if @current_cart.presence
   end
 
   def destroy
     @cart_item.destroy
-    redirect_to cart_path(@current_cart) if @current_cart.presence
+    redirect_to cart_path(@current_cart)
   end
 
   private
 
   def set_cart_item
     @cart_item = Cartitem.find(params[:id])
+  end
+
+  def cartitem_params
+    params.require(:cartitem).permit(:quantity)
   end
 end

@@ -7,6 +7,7 @@ class ItemsController < ApplicationController
   end
 
   def create
+    byebug
     @item = @category.items.build(item_params)
     if @item.save
       redirect_to @category, notice: 'Item created'
@@ -22,7 +23,7 @@ class ItemsController < ApplicationController
     if @item.update(item_params)
       redirect_to item_path(@item), notice: 'Item updated'
     else
-      render 'categories/show'
+      render :edit
     end
   end
 

@@ -1,15 +1,19 @@
 <div>
   <%= form_for [@category, @item] do |f| %>
-    <%= f.label 'Наименование товара' %>
+    <p>
+    <%= f.label 'Наименование товара' %><br />
     <%= f.text_field :name %>
-    <br />
-    <%= f.label 'Цена' %>
+    </p>
+    <p>
+    <%= f.label 'Цена' %><br />
     <%= f.text_field :price %>
-    <br />
-    <%= f.label 'Вес' %>
+    </p>
+    <p>
+    <%= f.label 'Вес' %><br />
     <%= f.text_field :weight %>
-    <br />
-    <br />
+    </p>
+    <p>
     <%= f.submit 'Сохранить товар' %> или <%= link_to 'вернуться', :back %>
+    </p>
   <% end %>
 </div>

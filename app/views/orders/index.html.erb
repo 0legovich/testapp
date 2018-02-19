@@ -1,0 +1,15 @@
+<h2>All Orders</h2>
+
+<% @orders.each do |order| %>
+  <p>Name:  <%= order.user_name %></p>
+  <p>Phone: <%= order.phone %></p>
+  <p>Email: <%= order.email %></p>
+  <p>Line Items: </p>
+  <ul>
+    <% order.cartitems.each do |cartitem| %>
+    <li><%= cartitem.quantity %> x <%= cartitem.item.name %></li>
+    <% end %>
+  </ul>
+
+   <p><%= link_to 'Удалить', order_path(order), method: :delete, data: { confirm: 'Are you sure?' } %></p>
+<% end %>

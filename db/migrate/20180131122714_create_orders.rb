@@ -5,8 +5,6 @@ class CreateOrders < ActiveRecord::Migration[5.0]
       t.string :phone
       t.string :email
       t.string :address
-      t.float  :order_price
-      t.float  :total_amount
 
       t.timestamps
     end

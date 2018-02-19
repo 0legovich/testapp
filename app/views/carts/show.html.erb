@@ -1,25 +1,30 @@
-<h2>Корзина</h2>
+<h2>Корзина</h2> <h3>Товаров: <%= @cart.total_items %></h3>
 <br />
+<% if @cart.cartitems.presence %>
 <ul>
   <% @cart.cartitems.each do |cartitem| %>
     <li>Item: <%= cartitem.item.name %>/ Price: <%= (cartitem.item.price) %> rub/
-      Quantity: <%= cartitem.quantity %>/
       Total Price: <%= (cartitem.total_price) %> rub
     </li>
     <ul>
       <li>
-        <%= link_to "Add one", add_quantity_cartitem_path(id: cartitem), method: :post %>
-        <br />
-        <%= link_to "Reduce one", reduce_quantity_cartitem_path(id:  cartitem), method: :post %>
+        <%= form_for cartitem, id: "form", remote: true do |f| %>
+          <%= f.number_field :quantity, id: "quantity_field" %>
+          <%= f.submit id: "quantity" %>
+        <% end %>
       </li>
+        <br />
       <li>
         <%= link_to "Remove item", cartitem_path(cartitem), method: :delete %>
-      </li>
+      </li><br />
     </ul>
   <% end %>
 </ul>
+<%= link_to "Очистить корзину", cart_path(@current_cart),method: :delete, data: {confirm: "Вы уверены?"} %>
 <br />
 <h3>Sub total: <%= (@cart.sub_total) %> rub</h3>
 <br />
-<%= link_to "Оформить заказ", "#" %><br />
-<%= link_to "Очистить корзину", cart_path(@current_cart),method: :delete, data: {confirm: "Вы уверены?"} %>
+<%= link_to "Оформить заказ", new_order_path %><br />
+<% else %>
+  <p>В вашей корзине пока нет товаров.</p>
+<% end %>
