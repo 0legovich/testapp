@@ -16,13 +16,10 @@ class CartitemsController < ApplicationController
   end
 
   def update
-    data = {}
-    @cart_item.update(cartitem_params)
+    @cart_item.update_attributes(cartitem_params)
     respond_to do |format|
-      if @cart_item.save
-        format.html {redirect_to cart_path(@current_cart)}
-        format.js data['quantity'] = @cart_item.quantity
-      end
+      format.html { redirect_to cart_path(@current_cart) }
+      format.json {render json: @cart_item}
     end
   end
 

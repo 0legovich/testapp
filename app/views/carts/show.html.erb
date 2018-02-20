@@ -1,30 +1,58 @@
 <h2>Корзина</h2> <h3>Товаров: <%= @cart.total_items %></h3>
-<br />
+<br/>
 <% if @cart.cartitems.presence %>
-<ul>
-  <% @cart.cartitems.each do |cartitem| %>
-    <li>Item: <%= cartitem.item.name %>/ Price: <%= (cartitem.item.price) %> rub/
-      Total Price: <%= (cartitem.total_price) %> rub
-    </li>
     <ul>
-      <li>
-        <%= form_for cartitem, id: "form", remote: true do |f| %>
-          <%= f.number_field :quantity, id: "quantity_field" %>
-          <%= f.submit id: "quantity" %>
-        <% end %>
-      </li>
-        <br />
-      <li>
-        <%= link_to "Remove item", cartitem_path(cartitem), method: :delete %>
-      </li><br />
+      <% @cart.cartitems.each do |cartitem| %>
+          <li>Item: <%= cartitem.item.name %>/ Price:
+            <p id="price_cartitem_<%= cartitem.id %>" style="display: inline"><%= (cartitem.item.price) %></p> rub/
+            Total Price:
+            <p id="total_price_cartitem_<%= cartitem.id %>" style="display: inline"><%= (cartitem.total_price) %></p>
+            rub
+          </li>
+
+          <ul>
+            <li>
+              <%= form_for cartitem, id: "form", remote: true, :html => {:'data-type' => 'json'} do |f| %>
+                  <%= f.number_field :quantity %>
+                  <%= f.submit %>
+              <% end %>
+            </li>
+            <br/>
+            <li>
+              <%= link_to "Remove item", cartitem_path(cartitem), method: :delete %>
+            </li>
+            <br/>
+          </ul>
+      <% end %>
     </ul>
-  <% end %>
-</ul>
-<%= link_to "Очистить корзину", cart_path(@current_cart),method: :delete, data: {confirm: "Вы уверены?"} %>
-<br />
-<h3>Sub total: <%= (@cart.sub_total) %> rub</h3>
-<br />
-<%= link_to "Оформить заказ", new_order_path %><br />
+
+    <%= link_to "Очистить корзину", cart_path(@current_cart), method: :delete, data: {confirm: "Вы уверены?"} %>
+    <br/>
+
+    <h3>Sub total: <p id="sub_total" style="display: inline"><%= (@cart.sub_total) %></p> rub</h3>
+    <br/>
+    <%= link_to "Оформить заказ", new_order_path %><br/>
 <% else %>
-  <p>В вашей корзине пока нет товаров.</p>
+    <p>В вашей корзине пока нет товаров.</p>
 <% end %>
+
+<script>
+        $(document).ajaxSuccess(function (event, xhr, settings) {
+            var respond = $.parseJSON(xhr.responseText);
+            var quantity = respond.quantity;
+            var cartitem_id = respond.id;
+            var price = $('#price_cartitem_' + cartitem_id).text();
+            $('#total_price_cartitem_' + cartitem_id).text(quantity * price);
+
+            var sub_total_arr = $('[id*=total_price_cartitem]').map(function () {
+                return parseFloat($(this).text());  //посмотри что такое $(this)
+            }).toArray();
+
+            var sub_total = sub_total_arr.reduce(function (previousValue, currentItem, index) {
+                return previousValue + currentItem
+            });
+
+            $('#sub_total').text(sub_total);
+            // открыть модальное окно
+        })
+</script>
